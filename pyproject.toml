@@ -1,0 +1,13 @@
+[project]
+name = "lyckyd"
+version = "0.1.0"
+description = """\
+  Let your code knows your data (lyckyd) -  \
+  This library offers a simple function that verifies your loaded \
+  data against the script's code, generating new code if there's a mismatch.\
+  """
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.0.0",
+]

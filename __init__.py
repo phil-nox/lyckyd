@@ -1,0 +1,2 @@
+
+from lyckyd.part_s.p04_check_n_self_patch import check_n_self_patch
