@@ -13,29 +13,37 @@ def gen_col_cls_lines(
         data_name_2_enum_name:  ty.Callable[[str], str] = lambda x: x.lower().replace(' ', '_'),
 ) -> list[str]:
 
+    the_tag = '# tag_col'
+
     rlt: list[str] = [f'class {name_for_col_cls}(enum.StrEnum):']
 
     for col in list(df.columns):
         code_like = data_name_2_enum_name(col)  # case df.columns = ['Top', 'top'] -> ['top', 'top']?
         rlt.append(f"    {code_like} = '{col}'")
 
-    if not pd_info_comment:
-        return rlt
+    if pd_info_comment:
 
-    info_df = io.StringIO()
-    df.info(buf=info_df)
-    shift: int = max(map(len, rlt)) + 2     # 2 space before comment
-    shift += 4 - shift % 4                  # n * tab size
+        info_df = io.StringIO()
+        df.info(buf=info_df)
+        shift: int = max(map(len, rlt)) + 2     # 2 space before comment
+        shift += 4 - shift % 4                  # n * tab size
 
-    rlt_adv = []
-    for c_part, i_part in zip(['', '', '', '', *rlt, '', ''], info_df.getvalue().split('\n')):
-        rlt_adv.append(
-            f'{c_part:<{shift}}# {i_part}'.replace("#  ", "# ", 1).replace("# -", "# ", 1)
-        )
+        rlt_adv = []
+        for c_part, i_part in zip(['', '', '', '', *rlt, '', ''], info_df.getvalue().split('\n')):
+            rlt_adv.append(
+                f'{c_part:<{shift}}# {i_part}'.replace("#  ", "# ", 1).replace("# -", "# ", 1)
+            )
 
-    rlt_adv.append(f'{"":<{shift}}#')
-    rlt_adv.append(f'{"":<{shift}}# {dt.datetime.now(dt.timezone.utc)}')
-    return rlt_adv
+        rlt_adv.append(f'{"":<{shift}}#')
+        rlt_adv.append(f'{"":<{shift}}# {dt.datetime.now(dt.timezone.utc)}')
+
+        rlt = rlt_adv
+
+    width_len = max(len(line) for line in rlt)
+    width_len += 1
+    width_len += width_len % 4
+    rlt = [f'{line.ljust(width_len)}{the_tag}' for line in rlt]
+    return rlt
 
 
 # sample and/or test code below ###############################################

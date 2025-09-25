@@ -5,7 +5,7 @@ import sys
 
 sys.path.append(str(pl.Path(__file__).parent.parent))
 
-import lyckyd.part_s.p01_gen_file as p01
+import lyckyd.part_s.p00_gen_file as p00
 
 
 if __name__ == '__main__':
@@ -20,15 +20,17 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--df_name', default='df', help='name for dataframe in generation code')
     parser.add_argument('-c', '--col_cls_name', default='C', help='name for columns class in generation code')
     parser.add_argument('-n', '--no_info', default=True, action='store_false', help='not include df.info as comments')
+    parser.add_argument('-r', '--add_raise', default=True, action='store_false', help='not add raise after patch')
 
     args = parser.parse_args()
 
-    lines = p01.generate_script_code(
+    lines = p00.generate_script_code(
         path_to_csv=args.input_file,
         output_file_name=args.output_file,
         name_for_df=args.df_name,
         name_for_col_cls=args.col_cls_name,
         pd_info_comment=args.no_info,
+        add_raise_after_patch=args.add_raise,
     )
 
     args.output = args.output_file if args.output_file.endswith('.py') else f'{args.output_file}.py'
