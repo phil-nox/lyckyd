@@ -46,7 +46,7 @@ def generate_script_code(
     code_line_s.append('# columns ###########################################################')
 
     cls_lines = p04.gen_col_cls_lines(df, name_for_col_cls, pd_info_comment)
-    cls_lines_with_tag = p02.self_patch(before=['tag_col'], to_replace={'tag_col': cls_lines})
+    cls_lines_with_tag = p02.tag_patch(before=['tag_col'], to_replace={'tag_col': cls_lines})
     code_line_s.extend(cls_lines_with_tag)
 
     code_line_s.append(' ' * (len(code_line_s[-1]) - len('# tag_col')) + '# tag_raise')
@@ -54,8 +54,8 @@ def generate_script_code(
     code_line_s.append('')
     code_line_s.append('')
 
-    # self_patch #######################################################################################################
-    code_line_s.append('# check and self_patch ##############################################')
+    # tag_patch #######################################################################################################
+    code_line_s.append('# check and tag_patch ##############################################')
 
     args = [
         f'    df={name_for_df},',
@@ -66,7 +66,7 @@ def generate_script_code(
         f'    path_2_file=__file__,',
     ]
 
-    code_line_s.append(f'if lyckyd.check_n_self_patch(')
+    code_line_s.append(f'if lyckyd.check_n_tag_patch(')
     code_line_s.extend(args)
     code_line_s.append(f'):')
     code_line_s.append(p05.line_for_tag_fail(str(len(code_line_s) + 1)))

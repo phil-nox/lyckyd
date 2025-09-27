@@ -12,7 +12,7 @@ import lyckyd.part_s.p05_tag_fail as p05
 import lyckyd.part_s.p06_tag_raise as p06
 
 
-def check_n_self_patch(
+def check_n_tag_patch(
         df:                     pd.DataFrame,
         col_cls:                ty.Type[enum.StrEnum],
         pd_info_comment:        bool,
@@ -40,10 +40,7 @@ def check_n_self_patch(
     if add_raise_after_patch:
         to_patch['tag_raise'] = [p06.line_for_tag_raise('%lineno')]
 
-    patched_lines = p02.self_patch(
-        before=target_file.read_text().split('\n'),
-        to_replace=to_patch,
-    )
+    patched_lines = p02.tag_patch(before=target_file.read_text().split('\n'), to_replace=to_patch)
 
     target_file.write_text('\n'.join(patched_lines))
 

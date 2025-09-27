@@ -1,5 +1,5 @@
 
-def self_patch(
+def tag_patch(
         before:                 list[str],
         to_replace:             dict[str, list[str]],       # use %lineno - if str required specific lineno
 ) -> list[str]:
@@ -40,10 +40,10 @@ if __name__ == '__main__':  # #################################################
     this_file = pl.Path(__file__)
     this_file_lines = this_file.read_text().split('\n')
 
-    patched_lines = self_patch(
+    patched_lines = tag_patch(
         before=this_file_lines,
         to_replace={
-            'tag2patch': ['    # new_1  # tag2patch', '    # new_2  # tag2patch',],
+            'tag2patch': ['    # new_1  # tag2patch', '    # new_2  # tag2patch', ],
             'tag_with_lineno': ['    # this line_number= %lineno  # tag_with_lineno'],
         }
     )
