@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    the_sample = pl.Path('sample.py')
+    the_sample = pl.Path(__file__).with_name('sample.py')
 
     output_stem = args.output_file[:-3] if args.output_file.endswith('.py') else args.output_file
 
@@ -50,5 +50,5 @@ if __name__ == '__main__':
     line_s = p03.tag_patch(before=the_sample.read_text().split('\n'), to_replace=to_patch)
 
     args.output = args.output_file if args.output_file.endswith('.py') else f'{args.output_file}.py'
-    with open(args.output_file, 'w') as out:
+    with open(args.output, 'w') as out:
         out.write('\n'.join(line_s))
