@@ -6,7 +6,7 @@ import typing as ty
 import pandas as pd
 
 
-def gen_col_cls_lines(
+def tag_col_lines(
         df:                     pd.DataFrame,
         name_for_col_cls:       str,
         pd_info_comment:        bool,
@@ -54,5 +54,5 @@ if __name__ == '__main__':  # #################################################
         'radius_km': [2440, 6052, 6371, 3390, 69911, 58232, 25362, 24622],
     })
 
-    line_s = gen_col_cls_lines(the_df, 'F', pd_info_comment=True)
+    line_s = tag_col_lines(the_df, 'F', pd_info_comment=True)
     [print(el) for el in line_s]

@@ -3,9 +3,17 @@ import argparse
 import pathlib as pl
 import sys
 
+import pandas as pd
+
 sys.path.append(str(pl.Path(__file__).parent.parent))
 
-import lyckyd.part_s.p00_gen_file as p00
+import part_s.p03_tag_patch as p03
+import part_s.p04_tag_col as p04
+import part_s.p05_tag_fail as p05
+import part_s.p06_tag_raise as p06
+import part_s.p07_tag_load as p07
+import part_s.p08_tag_setup as p08
+import part_s.p09_tag_usage as p09
 
 
 if __name__ == '__main__':
@@ -24,15 +32,23 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    lines = p00.generate_script_code(
-        path_to_csv=args.input_file,
-        output_file_name=args.output_file,
-        name_for_df=args.df_name,
-        name_for_col_cls=args.col_cls_name,
-        pd_info_comment=args.no_info,
-        add_raise_after_patch=args.add_raise,
-    )
+    the_sample = pl.Path('sample.py')
+
+    output_stem = args.output_file[:-3] if args.output_file.endswith('.py') else args.output_file
+
+    df = p07.sample_df if args.input_file is None else pd.read_csv(args.input_file)
+
+    to_patch = {
+        'tag_load':     p07.tag_load_lines(args.input_file, args.df_name),
+        'tag_col':      p04.tag_col_lines(df, args.col_cls_name, args.no_info),
+        'tag_fail':     p05.tag_fail_lines('%lineno'),
+        'tag_raise':    p06.tag_raise_lines('%lineno', False),
+        'tag_setup':    p08.tag_setup_lines(args.df_name, args.col_cls_name, args.no_info, args.add_raise),
+        'tag_usage':    p09.tag_usage_lines(output_stem, args.df_name, args.col_cls_name),
+    }
+
+    line_s = p03.tag_patch(before=the_sample.read_text().split('\n'), to_replace=to_patch)
 
     args.output = args.output_file if args.output_file.endswith('.py') else f'{args.output_file}.py'
     with open(args.output_file, 'w') as out:
-        out.write(lines)
+        out.write('\n'.join(line_s))
