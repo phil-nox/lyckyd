@@ -1,7 +1,7 @@
 
 import pandas as pd
 
-sample_df = pd.DataFrame({"planet": ["Earth", "Mars"], "radius_km": [6371, 3390]})
+sample_df = pd.DataFrame({"Planet": ["Earth", "Mars"], "Radius km": [6371, 3390]})
 
 
 def tag_load_lines(
@@ -12,9 +12,9 @@ def tag_load_lines(
     if path_to_csv is None:
         return [
             f'{name_for_df} = pd.DataFrame({{',
-            f'    "planet": ["Earth", "Mars"],',
-            f'    "radius_km": [6371, 3390],',
-            f'    # "count": [3, 4],        # uncomment & run',
+            f'    "Planet": ["Earth", "Mars"],',
+            f'    "Radius km": [6371, 3390],',
+            f'    # "position": [3, 4],        # uncomment & run',
             f'}})',
         ]
 

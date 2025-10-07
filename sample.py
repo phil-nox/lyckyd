@@ -7,13 +7,13 @@ import lyckyd
 
 # load ##############################################################
 df = pd.DataFrame({                                     # tag_load
-    "planet": ["Earth", "Mars"],                        # tag_load
-    "radius_km": [6371, 3390],                          # tag_load
-    # "count": [3, 4],        # uncomment & run         # tag_load
+    "Planet": ["Earth", "Mars"],                        # tag_load
+    "Radius km": [6371, 3390],                          # tag_load
+    # "position": [3, 4],        # uncomment & run      # tag_load
 })                                                      # tag_load
 
 # modification ######################################################
-# df["new_col"] = 0
+# df["radius_mi"] = df["Radius km"] * 0.621371
 
 
 # columns ###########################################################
@@ -22,8 +22,8 @@ df = pd.DataFrame({                                     # tag_load
                                 # Data columns (total 2 columns):       # tag_col
                                 # #   Column     Non-Null Count  Dtype  # tag_col
 class C(enum.StrEnum):          # --  ------     --------------  -----  # tag_col
-    planet = 'planet'           # 0   planet     2 non-null      object # tag_col
-    radius_km = 'radius_km'     # 1   radius_km  2 non-null      int64  # tag_col
+    planet = 'Planet'           # 0   Planet     2 non-null      object # tag_col
+    radius_km = 'Radius km'     # 1   Radius km  2 non-null      int64  # tag_col
                                 # dtypes: int64(1), object(1)           # tag_col
                                 # memory usage: 164.0+ bytes            # tag_col
                                 #                                       # tag_col
@@ -46,7 +46,7 @@ if lyckyd.check_n_tag_patch(
 # usage (in other files) ######################################################
 if __name__ == '__main__':  # #################################################
 
-    import output                                                       # tag_usage
+    import sample                                                       # tag_usage
                                                                         # tag_usage
-    foo = output.df[output.C.planet].unique()                           # tag_usage
+    foo = sample.df[sample.C.planet].unique()                           # tag_usage
     print(foo[:8])                                                      # tag_usage
